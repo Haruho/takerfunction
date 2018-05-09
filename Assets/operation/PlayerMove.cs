@@ -1,9 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 public class PlayerMove : MonoBehaviour {
     public float move;
+    public Slider takeProgress;
+
     private Rigidbody2D rg;
 
 	// Use this for initialization
@@ -21,5 +23,17 @@ public class PlayerMove : MonoBehaviour {
         {
             rg.velocity = new Vector2(move, 0);
         }
+        if (Input.GetKey(KeyCode.W))
+        {
+            
+        }
+        if (Input.GetKey(KeyCode.S))
+        {
+
+        }
+    }
+    private void TakeAblity()
+    {
+        //takeProgress.value += 
     }
 }

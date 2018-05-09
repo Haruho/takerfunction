@@ -7,10 +7,16 @@ public class PlayerState : MonoBehaviour {
     public Text levelText;
     public Text expText;
     public Slider expProgress;
+    public Text skillInfo;
 
+    public static int s1_level = 1;
+    public static int s2_level = 1;
+    public static int s3_level = 1;
+    public static int s4_level = 1;
     private int level;
     private int currentEXP;
     private int totalEXP;
+    public static int remianPoints;
 	// Use this for initialization
 	void Start () {
         LoadPlayerStates();
@@ -36,6 +42,13 @@ public class PlayerState : MonoBehaviour {
         expProgress.maxValue = totalEXP;
         expProgress.minValue = 1;
         expProgress.value = currentEXP / totalEXP;
+
+        skillInfo.text = "S1 : " + us.skill_1_level.ToString() + "\n" +
+                         "S2 : " + us.skill_2_level.ToString() + "\n" +
+                         "S3 : " + us.skill_3_level.ToString() + "\n" +
+                         "S4 : " + us.skill_4_level.ToString();
+
+        remianPoints = us.skillPoints;
     }
     private int getTotalEXP(int level)
     {
@@ -56,9 +69,14 @@ public class PlayerState : MonoBehaviour {
             if (currentEXP >= totalEXP)
             {
                 print("Up");
+
                 level += 1;
+                
                 currentEXP = currentEXP - totalEXP;
+
                 totalEXP = getTotalEXP(level);
+
+                remianPoints += 1;
             }
             //更新UI
             levelText.text = level.ToString();
@@ -71,8 +89,9 @@ public class PlayerState : MonoBehaviour {
     public void SaveData()
     {
         UpgradeSystem us = new UpgradeSystem();
-        us.SaveData(level,currentEXP);
+        us.SaveData(level,currentEXP,s1_level,s2_level,s3_level,s4_level, remianPoints);
     }
+
     public void add1()
     {
         AddExp(1);
