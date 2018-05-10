@@ -2,17 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 /// <summary>
-/// 进行存档的类
+/// 存档数据类
 /// </summary>
-public class Archive : MonoBehaviour {
+[System.Serializable]
+public class Archive{
+    public List<Enemy> enemies;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    public int level;
+
+    public string site;
 }

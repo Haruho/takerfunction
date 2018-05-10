@@ -9,7 +9,10 @@ public class PlayerState : MonoBehaviour {
     public Slider expProgress;
     public Text skillInfo;
 
+    //假如这个技能代表夺取速度
     public static int s1_level = 1;
+
+
     public static int s2_level = 1;
     public static int s3_level = 1;
     public static int s4_level = 1;

@@ -1,0 +1,2 @@
+E:\UnityProjects\takerfunction\obj\Debug\Assembly-CSharp.csprojResolveAssemblyReference.cache
+E:\UnityProjects\takerfunction\obj\Debug\Assembly-CSharp.csproj.CoreCompileInputs.cache
