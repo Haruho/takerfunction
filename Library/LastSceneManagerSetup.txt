@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Archive/SavingData.unity
+- path: Assets/Achievements/Achieve.unity
   isLoaded: 1
   isActive: 1
