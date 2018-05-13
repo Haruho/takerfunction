@@ -44,17 +44,20 @@ public class AchieveJsonHandle : MonoBehaviour {
         return pad;
     }
     /// <summary>
-    /// 所有的
+    /// 所有的成就数据
     /// </summary>
     /// <returns>列表</returns>
     public List<AchievementData> GetAllAchieveData()
     {
+        //读取地址
         string data = File.ReadAllText(Application.dataPath + "/Achievements/Archievements.json", Encoding.UTF8);
-
+        //litJson读取Json
         JsonData root = JsonMapper.ToObject(data);
+        //数组节点名
         JsonData node = root["achieves"];
 
         List<AchievementData> alist = new List<AchievementData>();
+
         for (int i = 0; i < node.Count; i++)
         {
             AchievementData ad = new AchievementData();
@@ -77,6 +80,7 @@ public class AchieveJsonHandle : MonoBehaviour {
         {
             if (!isInit)
             {
+                //创建成就列表UI
                 GameObject go = Instantiate(achieveBox);
                 go.transform.SetParent(content.transform, false);
                 go.transform.GetChild(3).GetComponent<Text>().text = allAchieveData[i].name;
@@ -102,11 +106,13 @@ public class AchieveJsonHandle : MonoBehaviour {
     }
     private void SavePlayerAchieveData(List<PlayerAchieveData> plist)
     {
+        //litJson创建Json字符串的方式
         StringBuilder sb = new StringBuilder();
         JsonWriter write = new JsonWriter(sb);
         write.WriteObjectStart();
         write.WritePropertyName("player");
         write.WriteArrayStart();
+        //循环创建
         for (int i = 0;i<plist.Count;i++)
         {
             write.WriteObjectStart();
@@ -122,6 +128,9 @@ public class AchieveJsonHandle : MonoBehaviour {
         write.WriteObjectEnd();
 
         print(sb.ToString());
+        //指定地址并且把Json字符串存在文件中
+        //如果需要上传，就只处理字符串？
+        //还是在本地进行文件创建在上传？
         string path = Application.dataPath + "/Achievements/PlayerAchieveData.json";
         if (!File.Exists(path))
         {
