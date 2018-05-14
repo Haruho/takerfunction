@@ -12,11 +12,12 @@ public class SkillUpgradeSystem : MonoBehaviour {
     public Text s3_skillinfo;
     public Text s4_skillinfo;
     public Text skillinfo;
-    // Use this for initialization
-    void Start () {
+
+    private void OnEnable()
+    {
+        //更细剩余技能点数的UI
         remainPoints.text = "Remain Points: " + PlayerState.remianPoints.ToString();
-	}
-	
+    }
 	// Update is called once per frame
 	void Update () {
         

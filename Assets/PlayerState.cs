@@ -17,8 +17,8 @@ public class PlayerState : MonoBehaviour {
     public static int s3_level = 1;
     public static int s4_level = 1;
     private int level;
-    private int currentEXP;
-    private int totalEXP;
+    private float currentEXP;
+    private float totalEXP;
     public static int remianPoints;
 	// Use this for initialization
 	void Start () {
@@ -42,9 +42,8 @@ public class PlayerState : MonoBehaviour {
 
         levelText.text = level.ToString();
         expText.text = currentEXP.ToString() + "/" + totalEXP.ToString();
-        expProgress.maxValue = totalEXP;
-        expProgress.minValue = 1;
-        expProgress.value = currentEXP / totalEXP;
+        expProgress.maxValue = 1;
+        expProgress.minValue = 0;
 
         skillInfo.text = "S1 : " + us.skill_1_level.ToString() + "\n" +
                          "S2 : " + us.skill_2_level.ToString() + "\n" +
@@ -71,8 +70,6 @@ public class PlayerState : MonoBehaviour {
             currentEXP += exp;
             if (currentEXP >= totalEXP)
             {
-                print("Up");
-
                 level += 1;
                 
                 currentEXP = currentEXP - totalEXP;
@@ -84,8 +81,7 @@ public class PlayerState : MonoBehaviour {
             //更新UI
             levelText.text = level.ToString();
             expText.text = currentEXP.ToString() + "/" + totalEXP.ToString();
-            expProgress.maxValue = totalEXP;
-            expProgress.minValue = 1;
+            //更新进度条显示
             expProgress.value = currentEXP / totalEXP;
         }
     }

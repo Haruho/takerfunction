@@ -12,6 +12,7 @@ public class Scope : MonoBehaviour {
         background.gameObject.SetActive(false);
         scope.gameObject.SetActive(false);
         isScopeMode = false;
+        scope.position = new Vector3(0, 0, 0);
 
     }
 	

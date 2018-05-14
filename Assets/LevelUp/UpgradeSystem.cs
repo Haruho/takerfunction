@@ -7,7 +7,7 @@ namespace Taker.Player
     public class UpgradeSystem
     {
         public int level = 1;
-        public int currentEXP = 0;
+        public float currentEXP = 0;
         public int skill_1_level = 1;
         public int skill_2_level = 1;
         public int skill_3_level = 1;
@@ -27,10 +27,10 @@ namespace Taker.Player
         /// <param name="s3">技能等级</param>
         /// <param name="s4">技能等级</param>
         /// <param name="remainpoint">剩余技能点数</param>
-        public void SaveData(int level,int currentEXP,int s1,int s2,int s3,int s4,int remainpoint)
+        public void SaveData(int level,float currentEXP,int s1,int s2,int s3,int s4,int remainpoint)
         {
             PlayerPrefs.SetInt("level",level);
-            PlayerPrefs.SetInt("currentEXP",currentEXP);
+            PlayerPrefs.SetFloat("currentEXP",currentEXP);
 
             PlayerPrefs.SetInt("s1", s1);
             PlayerPrefs.SetInt("s2", s2);
@@ -42,7 +42,7 @@ namespace Taker.Player
         public void LoadData()
         {
             level = PlayerPrefs.GetInt("level");
-            currentEXP = PlayerPrefs.GetInt("currentEXP");
+            currentEXP = PlayerPrefs.GetFloat("currentEXP");
 
             skill_1_level = PlayerPrefs.GetInt("s1");
             skill_2_level = PlayerPrefs.GetInt("s2");

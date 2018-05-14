@@ -69,6 +69,7 @@
     <Compile Include="Assets\Archive\Simple\SimpleSaveLoad.cs" />
     <Compile Include="Assets\LevelUp\SkillUpgradeSystem.cs" />
     <Compile Include="Assets\LevelUp\UpgradeSystem.cs" />
+    <Compile Include="Assets\MissionGoal\Goal.cs" />
     <Compile Include="Assets\operation\PlayerMove.cs" />
     <Compile Include="Assets\PlayerState.cs" />
     <Compile Include="Assets\sniper\Scope.cs" />

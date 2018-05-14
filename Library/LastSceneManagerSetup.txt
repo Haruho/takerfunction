@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Achievements/Achieve.unity
+- path: Assets/LevelUp/LevelUp.unity
   isLoaded: 1
   isActive: 1

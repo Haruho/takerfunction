@@ -7,7 +7,6 @@ public class LoadData : MonoBehaviour {
     // Use this for initialization
     void Start () {
         Archive a = GameData.archive;
-        print(a.enemies.Count);
         for (int i = 0; i < a.enemies.Count; i++)
         {
             GameObject go = Instantiate(ac);
