@@ -13,12 +13,9 @@ using System;
 public class AchieveJsonHandle : MonoBehaviour {
     public GameObject content;
     public GameObject achieveBox;
+
     public static List<AchievementData> allAchieveData;
 
-    /// <summary>
-    /// 一次打开程序的进程中完成的成就，有待保存的列表
-    /// </summary>
-    private List<PlayerAchieveData> achievedData;
     //是否已经创建了列表
     private bool isInit;
 	// Use this for initialization
@@ -34,15 +31,6 @@ public class AchieveJsonHandle : MonoBehaviour {
 	void Update () {
 		
 	}
-    /// <summary>
-    /// 完成一个成就的时候调用
-    /// </summary>
-    /// <returns>一个Json的节点，在脚本里playerachievedata的一个实例</returns>
-    public PlayerAchieveData GetPlayerAchieveData(int id,string time,bool state)
-    {
-        PlayerAchieveData pad = new PlayerAchieveData(id,time,state);
-        return pad;
-    }
     /// <summary>
     /// 所有的成就数据
     /// </summary>
@@ -65,6 +53,9 @@ public class AchieveJsonHandle : MonoBehaviour {
             ad.id = (int)node[i]["id"];
             ad.icon = (string)node[i]["icon"];
             ad.describe = (string)node[i]["describe"];
+            ad.state = (bool)node[i]["state"];
+            ad.time = (string)node[i]["time"];
+
             alist.Add(ad);
         }
         return alist;
@@ -75,17 +66,38 @@ public class AchieveJsonHandle : MonoBehaviour {
     /// </summary>
     public void OpenAchievePanle()
     {
-
-        for (int i = 0;i<allAchieveData.Count;i++)
+        int index = 0;
+        //循环所有成就列表和玩家获得的成就列表
+        for (int i = 0; i < allAchieveData.Count;i++)
         {
             if (!isInit)
             {
-                //创建成就列表UI
-                GameObject go = Instantiate(achieveBox);
-                go.transform.SetParent(content.transform, false);
-                go.transform.GetChild(3).GetComponent<Text>().text = allAchieveData[i].name;
-                go.transform.GetChild(1).GetComponentInChildren<Text>().text = allAchieveData[i].describe;
-                go.transform.GetChild(2).GetComponent<Text>().text = allAchieveData[i].id.ToString();
+                if (allAchieveData[i].state)
+                {
+                    //创建完成的成就列表UI
+                    GameObject go = Instantiate(achieveBox);
+                    go.transform.SetParent(content.transform, false);
+                    go.transform.GetChild(3).GetComponent<Text>().text = allAchieveData[i].name;
+                    go.transform.GetChild(1).GetComponentInChildren<Text>().text = allAchieveData[i].describe;
+                    go.transform.GetChild(2).GetComponent<Text>().text = allAchieveData[i].id.ToString();
+                    //修改成就Icon
+                 //   go.transform.GetChild(0).GetComponent<Image>().sprite = XXX;
+                    //排序
+                    go.transform.SetSiblingIndex(index);
+                    index++;
+
+                }
+                else
+                {
+                    //创建未完成的成就列表UI
+                    GameObject go = Instantiate(achieveBox);
+                    go.transform.SetParent(content.transform, false);
+                    //未完成显示灰色
+                    go.GetComponent<Image>().color = Color.gray;
+                    go.transform.GetChild(3).GetComponent<Text>().text = allAchieveData[i].name;
+                    go.transform.GetChild(1).GetComponentInChildren<Text>().text = allAchieveData[i].describe;
+                    go.transform.GetChild(2).GetComponent<Text>().text = allAchieveData[i].id.ToString();
+                }
             }
         }
         isInit = true;
@@ -96,33 +108,79 @@ public class AchieveJsonHandle : MonoBehaviour {
     /// </summary>
     public void AchieveTest()
     {
-        //完成成就的时候会创建一个成就类实例
-        //这里先用一些数据来测试
-        //AchievementData ad = new AchievementData();
-        achievedData = new List<PlayerAchieveData>();
-        achievedData.Add(GetPlayerAchieveData(10,DateTime.Now.ToShortDateString().ToString(),true));
+        //传入新的成就列表
+        AchievementData ad = new AchievementData(6,DateTime.Now.ToShortDateString(),true);
 
-        SavePlayerAchieveData(achievedData);
+        SavePlayerAchieveData(allAchieveData, ad);
+
     }
-    private void SavePlayerAchieveData(List<PlayerAchieveData> plist)
+
+    /// <summary>
+    /// 储存完成的成就
+    /// </summary>
+    /// <param name="plist">全部成就列表</param>
+    /// <param name="newData">完成的成就</param>
+    private void SavePlayerAchieveData(List<AchievementData> plist , AchievementData newData)
     {
+        //litjson不知道能不能只修改一个节点，现在的存储是只要完成了成就，所有的节点就需要都重新储存一次
         //litJson创建Json字符串的方式
         StringBuilder sb = new StringBuilder();
         JsonWriter write = new JsonWriter(sb);
         write.WriteObjectStart();
-        write.WritePropertyName("player");
+        write.WritePropertyName("achieves");
         write.WriteArrayStart();
         //循环创建
         for (int i = 0;i<plist.Count;i++)
         {
-            write.WriteObjectStart();
-            write.WritePropertyName("id");
-            write.Write(plist[i].id);
-            write.WritePropertyName("time");
-            write.Write(plist[i].time);
-            write.WritePropertyName("state");
-            write.Write(true);
-            write.WriteObjectEnd();
+            //
+            if (plist[i].id == newData.id)
+            {
+                write.WriteObjectStart();
+
+                write.WritePropertyName("name");
+                write.Write(plist[i].name);
+
+                write.WritePropertyName("id");
+                write.Write(plist[i].id);
+
+                write.WritePropertyName("icon");
+                write.Write(plist[i].icon);
+
+                write.WritePropertyName("describe");
+                write.Write(plist[i].describe);
+
+                write.WritePropertyName("state");
+                write.Write(newData.state);
+
+                write.WritePropertyName("time");
+                write.Write(newData.time);
+
+                write.WriteObjectEnd();
+            }
+            else
+            {
+                write.WriteObjectStart();
+
+                write.WritePropertyName("name");
+                write.Write(plist[i].name);
+
+                write.WritePropertyName("id");
+                write.Write(plist[i].id);
+
+                write.WritePropertyName("icon");
+                write.Write(plist[i].icon);
+
+                write.WritePropertyName("describe");
+                write.Write(plist[i].describe);
+
+                write.WritePropertyName("state");
+                write.Write(plist[i].state);
+
+                write.WritePropertyName("time");
+                write.Write(plist[i].time);
+
+                write.WriteObjectEnd();
+            }
         }
         write.WriteArrayEnd();
         write.WriteObjectEnd();
@@ -131,10 +189,10 @@ public class AchieveJsonHandle : MonoBehaviour {
         //指定地址并且把Json字符串存在文件中
         //如果需要上传，就只处理字符串？
         //还是在本地进行文件创建在上传？
-        string path = Application.dataPath + "/Achievements/PlayerAchieveData.json";
+        string path = Application.dataPath + "/Achievements/Archievements.json";
         if (!File.Exists(path))
         {
-            FileStream fileStream = new FileStream(Application.dataPath + "/Achievements/PlayerAchieveData.json", FileMode.OpenOrCreate, FileAccess.Write, FileShare.ReadWrite);
+            FileStream fileStream = new FileStream(Application.dataPath + "/Achievements/Archievements.json", FileMode.OpenOrCreate, FileAccess.Write, FileShare.ReadWrite);
             StreamWriter streamWriter = new StreamWriter(fileStream);
             streamWriter.WriteLine(sb.ToString());
             streamWriter.Close();
@@ -145,12 +203,14 @@ public class AchieveJsonHandle : MonoBehaviour {
         {
             File.Delete(path);
 
-            FileStream fileStream = new FileStream(Application.dataPath + "/Achievements/PlayerAchieveData.json", FileMode.OpenOrCreate, FileAccess.Write, FileShare.ReadWrite);
+            FileStream fileStream = new FileStream(Application.dataPath + "/Achievements/Archievements.json", FileMode.OpenOrCreate, FileAccess.Write, FileShare.ReadWrite);
             StreamWriter streamWriter = new StreamWriter(fileStream);
             streamWriter.WriteLine(sb.ToString());
             streamWriter.Close();
             fileStream.Close();
             fileStream.Dispose();
         }
+        //程序运行中更新成就列表
+        allAchieveData = GetAllAchieveData();
     }
 }

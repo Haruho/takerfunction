@@ -19,4 +19,25 @@ public class AchievementData{
     /// Icon的名字
     /// </summary>
     public string icon;
+    /// <summary>
+    /// 状态
+    /// </summary>
+    public bool state;
+    /// <summary>
+    /// 时间
+    /// </summary>
+    public string time;
+    /// <summary>
+    /// 完成一个成就需要的信息
+    /// </summary>
+    public AchievementData(int _id,string _time,bool _state)
+    {
+        id = _id;
+        time = _time;
+        state = _state;
+    }
+    public AchievementData()
+    {
+        return;
+    }
 }
