@@ -70,14 +70,13 @@
     <Compile Include="Assets\LevelUp\SkillUpgradeSystem.cs" />
     <Compile Include="Assets\LevelUp\UpgradeSystem.cs" />
     <Compile Include="Assets\MissionGoal\Goal.cs" />
-    <Compile Include="Assets\operation\PlayerMove.cs" />
     <Compile Include="Assets\PlayerState.cs" />
     <Compile Include="Assets\sniper\Scope.cs" />
-    <Reference Include="UnityEditor.StandardEvents">
-      <HintPath>E:/UnityProjects/takerfunction/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
-    </Reference>
     <Reference Include="Unity.PackageManagerUI.Editor">
       <HintPath>E:/UnityProjects/takerfunction/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.StandardEvents">
+      <HintPath>E:/UnityProjects/takerfunction/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>D:/Unity17.2/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
